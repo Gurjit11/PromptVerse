@@ -126,6 +126,12 @@ const Comment = ({
                 >
                   {submitting ? "Post..." : "Post"}
                 </button>
+                <button
+                  className="bg-gradient-to-r from-red-500 to-yellow-500 px-2 ml-1 py-1.5 h-8 text-sm rounded-full text-white font-semibold"
+                  onClick={() => setIsReplying((prev) => !prev)}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           ) : (
