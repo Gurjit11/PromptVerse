@@ -121,7 +121,7 @@ const Comment = ({
                   className="w-full p-1 mr-3 border text-gray-600 border-orange-400 rounded-md"
                 />
                 <button
-                  className="px-3 py-1.5 h-8 text-sm bg-gradient-to-r from-green-500 to-lime-500  rounded-full text-white font-semibold"
+                  className="px-3 py-1.5 h-8 text-sm bg-gradient-to-r from-orange-500 to-yellow-400  rounded-full text-white font-semibold"
                   type="submit"
                 >
                   {submitting ? "Post..." : "Post"}

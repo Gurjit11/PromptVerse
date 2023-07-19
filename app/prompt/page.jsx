@@ -147,7 +147,7 @@ const Prompt = () => {
             className="w-full p-1 mr-3 border border-orange-400 rounded-md"
           />
           <button
-            className="px-5 py-1.5 h-10 text-sm bg-gradient-to-r from-green-600 to-lime-500 rounded-full text-white font-bold"
+            className="px-5 py-1.5 h-10 text-sm bg-gradient-to-r from-orange-500 to-yellow-400 rounded-full text-white font-bold"
             type="submit"
           >
             {submitting ? "Post..." : "Post"}
