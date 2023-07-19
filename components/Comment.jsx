@@ -66,7 +66,7 @@ const Comment = ({
 
   return (
     <>
-      <div className="w-full max-w-2xl mt-2 flex-1 break-inside-avoid rounded-lg border items-center justify-center border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter h-fit">
+      <div className="w-full max-w-2xl mt-2 flex-1 break-inside-avoid rounded-lg border items-center justify-center border-blue-200 bg-white/10 bg-clip-padding p-3 pb-2 backdrop-blur-lg backdrop-filter h-fit">
         <div className="flex justify-between items-start gap-5">
           <Link
             href={
@@ -85,13 +85,13 @@ const Comment = ({
               />
 
               <div className="flex flex-col">
-                <h3 className="font-satoshi  text-xs text-gray-900">
+                <h3 className="font-satoshi  text-xs font-semibold text-gray-700">
                   {creator?.username}
                 </h3>
               </div>
             </div>
           </Link>
-          <div className="text-xs">
+          <div className="text-xs hidden sm:flex">
             {dateFormatter.format(Date.parse(updatedAt))}
           </div>
           <div className="copy_btn" onClick={handleCopy}>
@@ -107,20 +107,21 @@ const Comment = ({
             />
           </div>
         </div>
-        <p className="my-4 font-satoshi text-xs text-gray-700">{message}</p>
-        <div className="mt-5 flex-end gap-4 border-t border-gray-100 pt-3 text-sm green_gradient cursor-pointer">
+        <p className="my-1 font-satoshi text-xs text-gray-700">{message}</p>
+        <div className=" flex-end gap-4 border-t border-gray-100 pt-1 text-sm green_gradient cursor-pointer">
           {isReplying ? (
             <form
               onSubmit={createComment}
-              className="mt-2 w-full max-w-2xl flex flex-col gap-7 "
+              className="mt-1 w-full max-w-2xl flex flex-col gap-7 "
             >
               <div className="flex">
                 <textarea
+                  value={reply}
                   onChange={(e) => setReply(e.target.value)}
                   className="w-full p-1 mr-3 border text-gray-600 border-orange-400 rounded-md"
                 />
                 <button
-                  className="px-5 py-1.5 h-10 text-sm bg-primary-orange rounded-full text-white font-bold"
+                  className="px-3 py-1.5 h-8 text-sm bg-gradient-to-r from-green-500 to-lime-500  rounded-full text-white font-semibold"
                   type="submit"
                 >
                   {submitting ? "Post..." : "Post"}
