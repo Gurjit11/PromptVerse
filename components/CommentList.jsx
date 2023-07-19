@@ -1,3 +1,4 @@
+"use client";
 import Comment from "./Comment";
 
 export function CommentList({ comments, getReplies }) {
