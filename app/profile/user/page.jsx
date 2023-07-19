@@ -26,7 +26,7 @@ const OtherProfile = () => {
     const fetchUser = async () => {
       const response = await fetch(`/api/users/${id}`);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setUser({
         username: data.username,
         email: data.email,
