@@ -90,7 +90,7 @@ const Comment = ({
             </div>
           </Link>
           <div className="text-xs">
-            {dateFormatter.format(Date.parse(createdAt))}
+            {dateFormatter.format(Date.parse(updatedAt))}
           </div>
           <div className="copy_btn" onClick={handleCopy}>
             <Image

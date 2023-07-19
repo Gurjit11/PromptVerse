@@ -17,6 +17,7 @@ const Prompt = () => {
   const [comments, setComments] = useState([]);
   const [copied, setCopied] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [count, setCount] = useState(1);
 
   const commentsByParentId = useMemo(() => {
     const group = {};
@@ -49,7 +50,7 @@ const Prompt = () => {
     };
 
     const getComments = async () => {
-      const response = await fetch(`/api/comment`);
+      const response = await fetch(`/api/comment/${promptId}`);
       const data = await response.json();
       console.log(data);
       setComments(data);
@@ -57,7 +58,7 @@ const Prompt = () => {
 
     if (promptId) getPromptDetails();
     if (promptId) getComments();
-  }, [promptId]);
+  }, [promptId, count]);
 
   const [message, setMessage] = useState("");
 
@@ -83,6 +84,7 @@ const Prompt = () => {
       console.log(error);
     } finally {
       setSubmitting(false);
+      setCount((prev) => prev + 1);
     }
   };
 
