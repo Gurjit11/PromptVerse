@@ -15,6 +15,7 @@ const Comment = ({
   createdAt,
   updatedAt,
   getReplies,
+  setCount,
 }) => {
   const { data: session } = useSession();
   const [copied, setCopied] = useState("");
@@ -48,6 +49,7 @@ const Comment = ({
       console.log(error);
     } finally {
       setSubmitting(false);
+      setCount((prev) => prev + 1);
     }
   };
 
@@ -68,14 +70,14 @@ const Comment = ({
         <div className="flex justify-between items-start gap-5">
           <Link
             href={
-              creator._id == session?.user.id
+              creator?._id == session?.user.id
                 ? `/profile`
-                : `/profile/user?id=${creator._id}`
+                : `/profile/user?id=${creator?._id}`
             }
           >
             <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
               <Image
-                src={creator.image}
+                src={creator?.image || "/assets/icons/tick.svg"}
                 alt="user_image"
                 width={20}
                 height={20}
@@ -84,7 +86,7 @@ const Comment = ({
 
               <div className="flex flex-col">
                 <h3 className="font-satoshi  text-xs text-gray-900">
-                  {creator.username}
+                  {creator?.username}
                 </h3>
               </div>
             </div>
@@ -145,7 +147,11 @@ const Comment = ({
               onClick={() => setAreChildrenHidden(true)}
             />
             <div className="nested-comments">
-              <CommentList comments={childComments} getReplies={getReplies} />
+              <CommentList
+                comments={childComments}
+                getReplies={getReplies}
+                setCount={setCount}
+              />
             </div>
           </div>
           <button

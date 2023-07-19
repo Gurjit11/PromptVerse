@@ -52,7 +52,7 @@ const Prompt = () => {
     const getComments = async () => {
       const response = await fetch(`/api/comment/${promptId}`);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setComments(data);
     };
 
@@ -156,7 +156,11 @@ const Prompt = () => {
       </form>
       {rootComments != null && rootComments.length > 0 && (
         <div className="mt-2 w-full max-w-xl">
-          <CommentList comments={rootComments} getReplies={getReplies} />
+          <CommentList
+            comments={rootComments}
+            getReplies={getReplies}
+            setCount={setCount}
+          />
         </div>
       )}
     </>
