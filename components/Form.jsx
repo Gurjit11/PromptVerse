@@ -1,6 +1,54 @@
+"use client";
 import Link from "next/link";
+import { useState } from "react";
+import axios, { formToJSON } from "axios";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const instruction = `you must give suitable output as a json object containing 
+  keys as 'pretext': text before code if required,'code': code if required ,
+  'posttext': text after code if required 
+   you should and add <br></br> at the end of the line after fullstop in the the pretext and posttext 
+   let the code be as it is dont add <br></br> at the end of the line
+  
+ the prompt is ::`;
+
+  const getOutput = async () => {
+    const options = {
+      method: "POST",
+      url: "https://chatgpt-api8.p.rapidapi.com/",
+      headers: {
+        "content-type": "application/json",
+        "X-RapidAPI-Key": process.env.NEXT_PUBLIC_GPT_API_KEY,
+        "X-RapidAPI-Host": "chatgpt-api8.p.rapidapi.com",
+      },
+      data: [
+        {
+          content: instruction + post.prompt,
+          role: "user",
+        },
+      ],
+    };
+
+    try {
+      setLoading(true);
+      const response = await axios.request(options);
+      console.log(response.data.text);
+      setOutput(JSON.parse(response.data.text));
+      setPost({ ...post, output: response.data.text });
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className="head_text text-left">
@@ -43,7 +91,35 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           />
         </label>
 
-        <div className="flex-end mx-3 mb-5 gap-4">
+        <div
+          type="btn"
+          className="green_gradient font-bold cursor-pointer"
+          onClick={getOutput}
+        >
+          {loading ? "Run..." : "Run"}
+        </div>
+        {error ? (
+          <div className="text-red-400 text-sm mt-3">{error.message}</div>
+        ) : null}
+        {output ? (
+          <>
+            <h1>Chatgpt Output:</h1>
+            <div
+              className=" text-sm "
+              dangerouslySetInnerHTML={{ __html: output?.pretext }}
+            ></div>
+            <div className=" text-sm rounded-md">
+              <SyntaxHighlighter language="javascript" style={docco}>
+                {output?.code}
+              </SyntaxHighlighter>
+            </div>
+            <div
+              className=" text-sm"
+              dangerouslySetInnerHTML={{ __html: output?.posttext }}
+            ></div>
+          </>
+        ) : null}
+        <div className="flex-end mx-3 mt-10 mb-5 gap-4">
           <Link href="/" className="text-red-400 text-sm">
             Cancel
           </Link>

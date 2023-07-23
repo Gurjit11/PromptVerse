@@ -14,6 +14,7 @@ const CreatePrompt = () => {
   const [post, setPost] = useState({
     prompt: "",
     tag: "",
+    output: "",
   });
 
   const createPrompt = async (e) => {
@@ -27,6 +28,7 @@ const CreatePrompt = () => {
           prompt: post.prompt,
           userId: session?.user.id,
           tag: post.tag,
+          output: post.output,
         }),
       });
 

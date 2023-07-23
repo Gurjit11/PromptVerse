@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { CommentList } from "@components/CommentList";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const Prompt = () => {
   const router = useRouter();
@@ -18,6 +20,7 @@ const Prompt = () => {
   const [copied, setCopied] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [count, setCount] = useState(1);
+  const [showOutput, setShowOutput] = useState(false);
 
   const commentsByParentId = useMemo(() => {
     const group = {};
@@ -136,6 +139,38 @@ const Prompt = () => {
         >
           {post.tag}
         </p>
+        {post?.output ? (
+          <>
+            <button
+              className="bg-blue-600 p-1 rounded-md text-xs mt-2 text-white font-semibold"
+              onClick={() => setShowOutput((prev) => !prev)}
+            >
+              {!showOutput ? "Show Output" : "Hide Output"}
+            </button>
+            {showOutput ? (
+              <>
+                <h1>Chatgpt Output:</h1>
+                <div
+                  className=" text-sm "
+                  dangerouslySetInnerHTML={{
+                    __html: JSON.parse(post.output)?.pretext,
+                  }}
+                ></div>
+                <div className=" text-sm rounded-md">
+                  <SyntaxHighlighter language="javascript" style={docco}>
+                    {JSON.parse(post.output)?.code}
+                  </SyntaxHighlighter>
+                </div>
+                <div
+                  className=" text-sm"
+                  dangerouslySetInnerHTML={{
+                    __html: JSON.parse(post.output)?.posttext,
+                  }}
+                ></div>
+              </>
+            ) : null}
+          </>
+        ) : null}
       </div>
       <form
         onSubmit={createComment}
