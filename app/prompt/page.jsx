@@ -170,6 +170,9 @@ const Prompt = () => {
                   }}
                 ></div>
                 {JSON.parse(post.output)?.url ? (
+                  <h1 className="flex-end">Dall-e Output:</h1>
+                ) : null}
+                {JSON.parse(post.output)?.url ? (
                   <img
                     src={JSON.parse(post.output)?.url}
                     className="sm:h-[400px]"
