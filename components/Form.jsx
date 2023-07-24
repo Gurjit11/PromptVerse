@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import axios, { formToJSON } from "axios";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
@@ -65,9 +65,23 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
     try {
       setLoading(true);
       const response = await axios.request(options);
-      console.log(response.data);
-      setImage(response.data.url);
-      setPost({ ...post, output: `{ "url":"${response.data.url}" }` });
+
+      const responseCloud = await axios.post(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDNAME}/image/upload`,
+        {
+          file: response.data.url,
+          upload_preset: process.env.NEXT_PUBLIC_UPLOAD_PRESET,
+        }
+      );
+
+      // console.log(responseCloud.data.secure_url);
+
+      // console.log(response.data);
+      setImage(responseCloud.data.secure_url);
+      setPost({
+        ...post,
+        output: `{ "url":"${responseCloud.data.secure_url}" }`,
+      });
       setLoading(false);
     } catch (error) {
       console.error(error);
