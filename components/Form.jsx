@@ -171,6 +171,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         {image != "" ? (
           <div className="flex-end">
             <h1 className="my-1">Dall-e Output:</h1>
+            <br></br>
             <img className="sm:h-[400px] " src={image} />
           </div>
         ) : null}
