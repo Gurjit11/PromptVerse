@@ -93,7 +93,7 @@ const Prompt = () => {
 
   return (
     <>
-      <div className="w-full max-w-2xl  flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter h-fit">
+      <div className="w-full max-w-2xl  flex-1 break-inside-avoid transition-opacity rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter h-fit">
         <div className="flex justify-between items-start gap-5">
           <Link
             href={
@@ -149,7 +149,9 @@ const Prompt = () => {
             </button>
             {showOutput ? (
               <>
-                <h1>Chatgpt Output:</h1>
+                {JSON.parse(post.output)?.pretext ? (
+                  <h1>Chatgpt Output:</h1>
+                ) : null}
                 <div
                   className=" text-sm "
                   dangerouslySetInnerHTML={{
@@ -167,6 +169,13 @@ const Prompt = () => {
                     __html: JSON.parse(post.output)?.posttext,
                   }}
                 ></div>
+                {JSON.parse(post.output)?.url ? (
+                  <img
+                    src={JSON.parse(post.output)?.url}
+                    className="h-[400px]"
+                    alt=""
+                  />
+                ) : null}
               </>
             ) : null}
           </>

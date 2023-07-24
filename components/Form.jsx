@@ -9,6 +9,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("");
 
   const instruction = `you must give suitable output as a json object containing 
   keys as 'pretext': text before code if required,'code': code if required ,
@@ -18,7 +19,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
   
  the prompt is ::`;
 
-  const getOutput = async () => {
+  const getOutputChatgpt = async () => {
     const options = {
       method: "POST",
       url: "https://chatgpt-api8.p.rapidapi.com/",
@@ -41,6 +42,32 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
       console.log(response.data.text);
       setOutput(JSON.parse(response.data.text));
       setPost({ ...post, output: response.data.text });
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+      setLoading(false);
+    }
+  };
+
+  const getOutputDallE = async () => {
+    const options = {
+      method: "POST",
+      url: "https://open-ai21.p.rapidapi.com/dalle",
+      headers: {
+        "content-type": "application/json",
+        "X-RapidAPI-Key": process.env.NEXT_PUBLIC_DALLE_API_KEY,
+        "X-RapidAPI-Host": "open-ai21.p.rapidapi.com",
+      },
+      data: { text: post.prompt },
+    };
+
+    try {
+      setLoading(true);
+      const response = await axios.request(options);
+      console.log(response.data);
+      setImage(response.data.url);
+      setPost({ ...post, output: `{ "url":"${response.data.url}" }` });
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -90,18 +117,26 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
             className="form_input"
           />
         </label>
-
-        <div
-          type="btn"
-          className="green_gradient font-bold cursor-pointer"
-          onClick={getOutput}
-        >
-          {loading ? "Run..." : "Run"}
+        <div className="flex-between">
+          <div
+            type="btn"
+            className="green_gradient font-bold cursor-pointer"
+            onClick={getOutputChatgpt}
+          >
+            {loading ? "Run Chatgpt..." : "Run Chatgpt"}
+          </div>
+          <div
+            type="btn"
+            className="blue_gradient font-bold cursor-pointer"
+            onClick={getOutputDallE}
+          >
+            {loading ? "Run Dall-e..." : "Run Dall-e"}
+          </div>
         </div>
         {error ? (
           <div className="text-red-400 text-sm mt-3">{error.message}</div>
         ) : null}
-        {output ? (
+        {output != "" ? (
           <>
             <h1>Chatgpt Output:</h1>
             <div
@@ -118,6 +153,11 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
               dangerouslySetInnerHTML={{ __html: output?.posttext }}
             ></div>
           </>
+        ) : null}
+        {image != "" ? (
+          <div className="flex-end">
+            <img className="h-[400px] " src={image} />
+          </div>
         ) : null}
         <div className="flex-end mx-3 mt-10 mb-5 gap-4">
           <Link href="/" className="text-red-400 text-sm">
