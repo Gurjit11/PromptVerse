@@ -172,7 +172,7 @@ const Prompt = () => {
                 {JSON.parse(post.output)?.url ? (
                   <img
                     src={JSON.parse(post.output)?.url}
-                    className="h-[400px]"
+                    className="sm:h-[400px]"
                     alt=""
                   />
                 ) : null}

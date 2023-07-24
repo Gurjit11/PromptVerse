@@ -170,7 +170,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         ) : null}
         {image != "" ? (
           <div className="flex-end">
-            <img className="h-[400px] " src={image} />
+            <img className="sm:h-[400px] " src={image} />
           </div>
         ) : null}
         <div className="flex-end mx-3 mt-10 mb-5 gap-4">
