@@ -65,8 +65,16 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
       >
         {post.tag}
       </p>
-      <div className="mt-5 flex-end gap-4 border-t border-gray-100 pt-3 text-sm green_gradient cursor-pointer">
-        <Link href={`/prompt?id=${post._id}`}>Comments</Link>
+      <div className="mt-5 flex-end gap-4 border-t border-gray-100 pt-3 text-sm  cursor-pointer">
+        <Link
+          className="bg-gradient-to-br from-red-500 to-purple-600 bg-clip-text text-transparent"
+          href={`/prompt?id=${post._id}`}
+        >
+          Output
+        </Link>
+        <Link className="green_gradient" href={`/prompt?id=${post._id}`}>
+          Comments
+        </Link>
       </div>
       {session?.user.id === post.creator._id && pathName === "/profile" && (
         <div className="mt-5 flex-end gap-4 border-t border-gray-100 pt-3">
