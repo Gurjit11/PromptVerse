@@ -23,6 +23,8 @@ const Feed = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [allPosts, setAllPosts] = useState([]);
   const [posts, setPosts] = useState([]);
+  const noOfPosts = 9;
+  const [length, setLength] = useState(noOfPosts);
 
   const handleSearchChange = (e) => {
     clearTimeout(searchTimeout);
@@ -78,10 +80,27 @@ const Feed = () => {
         />
       </form>
       {searchText == "" ? (
-        <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
+        <PromptCardList
+          data={allPosts.slice(0, length)}
+          handleTagClick={handleTagClick}
+        />
       ) : (
         <PromptCardList data={posts} handleTagClick={handleTagClick} />
       )}
+      {searchText == "" && length < allPosts.length ? (
+        <p
+          className="hover:border-b cursor-pointer border-blue-500"
+          onClick={() =>
+            setLength((prev) =>
+              parseInt(allPosts.length - prev) / parseInt(noOfPosts) > 1
+                ? prev + noOfPosts
+                : allPosts.length
+            )
+          }
+        >
+          <span className="blue_gradient">More Posts</span>
+        </p>
+      ) : null}
     </section>
   );
 };
