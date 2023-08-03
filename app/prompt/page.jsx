@@ -104,7 +104,7 @@ const Prompt = () => {
           >
             <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
               <Image
-                src={post.creator?.image || "/assets/icons/tick.svg"}
+                src={post.creator?.image || "/assets/images/circle-loading.gif"}
                 alt="user_image"
                 width={30}
                 height={30}

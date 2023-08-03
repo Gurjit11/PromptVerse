@@ -14,6 +14,7 @@ const EditPrompt = () => {
   const [post, setPost] = useState({
     prompt: "",
     tag: "",
+    output: "",
   });
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const EditPrompt = () => {
       setPost({
         prompt: data.prompt,
         tag: data.tag,
+        output: data?.output,
       });
     };
 
@@ -42,6 +44,7 @@ const EditPrompt = () => {
         body: JSON.stringify({
           prompt: post.prompt,
           tag: post.tag,
+          output: post.output,
         }),
       });
 

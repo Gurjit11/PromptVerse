@@ -31,7 +31,8 @@ export const PATCH = async (req, { params }) => {
 
         existingPrompt.prompt = prompt
         existingPrompt.tag = tag
-        // existingPrompt.output = output
+        if (existingPrompt?.output)
+            existingPrompt.output = output
 
         await existingPrompt.save()
 

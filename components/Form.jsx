@@ -65,6 +65,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
     try {
       setLoading(true);
       const response = await axios.request(options);
+      console.log(response.data);
 
       const responseCloud = await axios.post(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDNAME}/image/upload`,
@@ -74,9 +75,8 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         }
       );
 
-      // console.log(responseCloud.data.secure_url);
+      console.log(responseCloud.data.secure_url);
 
-      // console.log(response.data);
       setImage(responseCloud.data.secure_url);
       setPost({
         ...post,
